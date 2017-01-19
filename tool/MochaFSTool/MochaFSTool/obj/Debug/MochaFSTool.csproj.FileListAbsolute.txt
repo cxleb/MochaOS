@@ -1,0 +1,7 @@
+C:\osdev\MochaOS\tool\MochaFSTool\MochaFSTool\bin\Debug\MochaFSTool.exe.config
+C:\osdev\MochaOS\tool\MochaFSTool\MochaFSTool\bin\Debug\MochaFSTool.exe
+C:\osdev\MochaOS\tool\MochaFSTool\MochaFSTool\bin\Debug\MochaFSTool.pdb
+C:\osdev\MochaOS\tool\MochaFSTool\MochaFSTool\bin\Debug\DiscUtils.dll
+C:\osdev\MochaOS\tool\MochaFSTool\MochaFSTool\obj\Debug\MochaFSTool.csprojResolveAssemblyReference.cache
+C:\osdev\MochaOS\tool\MochaFSTool\MochaFSTool\obj\Debug\MochaFSTool.exe
+C:\osdev\MochaOS\tool\MochaFSTool\MochaFSTool\obj\Debug\MochaFSTool.pdb
