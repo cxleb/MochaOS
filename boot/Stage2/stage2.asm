@@ -5,8 +5,8 @@ jmp entry
 
 %include "boot/Stage2/Stage2/BIOSVideo.asm"
 %include "boot/Stage2/Stage2/a20.asm"
-%include "boot/Stage2/Stage2/fail.asm"
 %include "boot/Stage2/Stage2/gdt.asm"
+%include "boot/Stage2/Stage2/Vesa.asm"
 
 
 
@@ -44,12 +44,24 @@ entry:
 	; gdt table
 	call loadGDT
 	
+	; Enable Vesa
+	call setup_vesa
+	
 	; print finished message
 	mov si, FinishedMsg
 	call print
 	
+	cli
 	hlt
 
+fail:
+	mov si, fail_msg
+	call print
+	
+	cli
+	hlt
+	
+fail_msg db "Failed!", 10, 13, 0
 
 
 driveNumber db 0
