@@ -11,31 +11,31 @@ ReadDiskInfo:
 	
 	; set appropiate registers for read, ah = mode, dl = drive
 	mov ah, 42h
-	mov dl, byte [driveNumber]
+	mov dl, byte [DriveNumber]
 	
 	; read
 	int 0x13
 	
 	; is the carry flag set? if so it failed
-	jc fail
+	jc Fail
 	
 	mov si, VolumeLabelMsg
-	call print
+	call Print
 	
 	mov si, DiskInfo.volumeLabel
-	call print
+	call Print
 	
 	call TermLine
 	
 	mov si, DiskSizeMsg
-	call print
+	call Print
 	
 	xor eax, eax
 	mov eax, dword [DiskInfo.blockTotal]
 	call PrintNumber
 	
 	mov si, DiskSizeMsgFinal
-	call print
+	call Print
 	
 	call TermLine
 	
@@ -65,12 +65,12 @@ mov ecx, 17
 	mov dword [FTDap.block], ecx
 	; setup regs for read
 	mov ah, 0x42
-	mov dl, byte[driveNumber]
+	mov dl, byte[DriveNumber]
 	mov si, FTDap
 	; read
 	int 0x13
 	; did we fail?
-	jc fail
+	jc Fail
 	
 	; push ecx, we use it again
 	push ecx
@@ -108,7 +108,7 @@ mov ecx, 17
 		
 		; print it out for debugging purposes
 		mov si, KernelBlockMsg
-		call print
+		call Print
 		
 		mov eax, dword[KernelBlock]
 		call PrintNumber
@@ -116,13 +116,13 @@ mov ecx, 17
 		call TermLine
 		
 		mov si, KernelSizeMsg
-		call print
+		call Print
 		
 		mov eax, dword[KernelSize]
 		call PrintNumber
 		
 		mov si, DiskSizeMsgFinal ; Literally is no point in making a unique one
-		call print
+		call Print
 		
 		call TermLine
 		
@@ -151,7 +151,7 @@ popa
 ret
 
 .fail:
-jmp fail
+jmp Fail
 
 
 
@@ -173,19 +173,40 @@ ReadKernel:
 	
 	; setup the regs for read
 	mov ah, 0x42
-	mov dl, byte[driveNumber]
+	mov dl, byte[DriveNumber]
 	mov si, ReadKernelDap
 	; read
 	int 0x13
 	
 	; did it fail
-	jc fail
+	jc Fail
 	
 	; our kernel should be at 0x7e00
 	
 	popa
 	ret
 	
+LoadKernel:
+	pusha
+	
+	mov si, ReadingDiskMsg
+	call Print
+	
+	call TermLine
+	
+	call ReadDiskInfo
+	
+	mov si, ReadingKernelMsg
+	call Print
+	
+	call TermLine
+	
+	call GetKernelEntry
+	
+	call ReadKernel
+	
+	popa
+	ret
 
 
 ReadDiskInfoDAP:
@@ -233,11 +254,13 @@ DiskInfo:
 	
 	.code2:				times 512 db 0
 	
-DiskSizeMsg db "Disk Size: ", 0
+DiskSizeMsg db "    Disk Size: ", 0
 DiskSizeMsgFinal db " Blocks", 0
-VolumeLabelMsg	db "Disk Name: ", 0
-KernelBlockMsg db "Kernel Block: ", 0
-KernelSizeMsg db "Kernel Size: ", 0
+VolumeLabelMsg	db "    Disk Name: ", 0
+KernelBlockMsg db "    Kernel Block: ", 0
+KernelSizeMsg db "    Kernel Size: ", 0
+ReadingDiskMsg db "Reading Disk...", 0
+ReadingKernelMsg db "Reading Kernel...", 0
 KernelName db "krnl32.sys", 0
 KernelBlock dd 0
 KernelSize dw 0

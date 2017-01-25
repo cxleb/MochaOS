@@ -1,5 +1,5 @@
 ; es:di - buffer
-get_video_modes:
+GetVideoModes:
 pusha 
 
 ; clear ax and put function code in and call int 0x10
@@ -9,16 +9,13 @@ int 0x10
 
 ; if ax is not 0x004f then it failed :(
 cmp ax, 0x004F
-jne .fail
+jne Fail
 
 ; if we got here it worked, so we go back
 popa
 ret
-
-.fail:
-	call fail
 	
-print_all_modes:
+PrintAllModes:
 
 push es
 
@@ -50,13 +47,13 @@ mov es, ax
 	
 	; check for fail
 	cmp ax, 0x004F
-	jne .NextEntryp
+	jne .nextEntryP
 	
 	; we dont care about monochrome
 	mov ax, word[VesaModeInfo.Attribs]
 	and ax, 0x009B
 	cmp ax, 0x009B
-	jne .NextEntryp
+	jne .nextEntryP
 	
 	;print info
 	
@@ -64,24 +61,24 @@ mov es, ax
 	mov ax, cx 
 	call PrintNumber
 	mov si, mResX
-	call print
+	call Print
 	mov ax, word[VesaModeInfo.ResX]
 	call PrintNumber
 	mov si, mResY
-	call print
+	call Print
 	mov ax, word[VesaModeInfo.ResY]
 	call PrintNumber
 	mov si, mBPP
-	call print
+	call Print
 	xor ax, ax
 	mov al, byte[VesaModeInfo.BPP]
 	call PrintNumber
 	call TermLine
 	pop si
 	
-	jmp .NextEntryp
+	jmp .nextEntryP
 	
-.NextEntryp:
+.nextEntryP:
 	add si, 2
 	jmp .ploop
 	
@@ -92,14 +89,14 @@ mov es, ax
 
 ; es:si - video modes
 ; we find a video mode with 1280x720x24
-find_best_video_mode:
+FindBestVideoMode:
 
 push es
 
 xor ax, ax
 mov es, ax
 
-.vloop:
+.vLoop:
 	
 	; clean buffer
 	push esi
@@ -114,7 +111,7 @@ mov es, ax
 	
 	; check if we got the end
 	cmp cx, 0xffff
-	je 	fail
+	je 	Fail
 	
 	; load the mode info
 	xor ax, ax
@@ -125,18 +122,18 @@ mov es, ax
 	
 	; check if it failed
 	cmp ax, 0x004F
-	jne .NextEntry
+	jne .nextEntry
 	
 	; Test For colour
 	mov ax, word[VesaModeInfo.Attribs]
 	and ax, 0x009B
 	cmp ax, 0x009B
-	jne .NextEntry
+	jne .nextEntry
 	
 	; Test For 24 bits
 	mov al, Byte[VesaModeInfo.BPP]
 	cmp al, 24
-	jne .NextEntry
+	jne .nextEntry
 	
 	; Now Test Resolution
 	mov ax, word[VesaModeInfo.ResX]
@@ -145,18 +142,18 @@ mov es, ax
 	cmp ax, 1024
 	je .test1024
 	
-	jmp .NextEntry
+	jmp .nextEntry
 	
 	.test1280:
 		mov ax, word[VesaModeInfo.ResY]
 		cmp ax, 1024
-		jne .NextEntry
+		jne .nextEntry
 		jmp .found
 	
 	.test1024:
 		mov ax, word[VesaModeInfo.ResY]
 		cmp ax, 768
-		jne .NextEntry
+		jne .nextEntry
 		jmp .found
 	
 	; Ok, we got here that means we have the right video mode
@@ -180,16 +177,16 @@ mov es, ax
 	pop es
 	ret
 	
-	.NextEntry:
+	.nextEntry:
 		add si, 2
-		jmp .vloop
+		jmp .vLoop
 
 ; sets up video modes
-setup_vesa:
+SetupVesa:
 	pusha
 
 	mov si, VesaLoadingMsg
-	call print
+	call Print
 
 	; put location of controller in es:di
 	xor ax, ax
@@ -197,7 +194,7 @@ setup_vesa:
 	mov di, VesaControllerInfo
 
 	; get video modes
-	call get_video_modes
+	call GetVideoModes
 
 	; get the buffer of the video modes and put it in es:signature
 	xor ax, ax
@@ -207,12 +204,12 @@ setup_vesa:
 	mov es, ax
 	
 	; now we have found the right video mode
-	call find_best_video_mode
+	call FindBestVideoMode
 	
 	popa
 	ret
 	
-enterVesa:
+EnterVesa:
 	pusha
 	; now we set the video mode	
 	mov ax, 0x4f02
@@ -221,7 +218,7 @@ enterVesa:
 	int 0x10
 	
 	cmp ax, 0x004f
-	jne fail
+	jne Fail
 
 	popa
 	ret

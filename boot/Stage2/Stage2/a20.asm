@@ -1,10 +1,7 @@
-
-
-;; OSDEV Wiki wrote this
-;; OSDEV Wiki wrote this
-;; checks a20 line
-;; if ax is 1 it is enabled 
-check_a20:
+; OSDEV Wiki wrote this
+; checks a20 line
+; if ax is 1 it is enabled 
+CheckA20:
     pushf
     push ds
     push es
@@ -53,59 +50,58 @@ check_a20__exit:
  
     ret
 	
-enable_a20_bios:
+EnableA20Bios:
 pusha
 mov ax, 0x2401
 int 15h
 popa
 ret
 
-enable_a20_keyboard:
-        cli
+EnableA20Keyboard:
+	cli
+
+	call    .a20Wait
+	mov     al,0xAD
+	out     0x64,al
+
+	call    .a20Wait
+	mov     al,0xD0
+	out     0x64,al
+
+	call    .a20Wait2
+	in      al,0x60
+	push    eax
+
+	call    .a20Wait
+	mov     al,0xD1
+	out     0x64,al
+
+	call    .a20Wait
+	pop     eax
+	or      al,2
+	out     0x60,al
+
+	call    .a20Wait
+	mov     al,0xAE
+	out     0x64,al
+
+	call    .a20Wait
+	sti
+	ret
  
-        call    a20wait
-        mov     al,0xAD
-        out     0x64,al
+.a20Wait:
+	in      al,0x64
+	test    al,2
+	jnz     .a20Wait
+	ret
  
-        call    a20wait
-        mov     al,0xD0
-        out     0x64,al
- 
-        call    a20wait2
-        in      al,0x60
-        push    eax
- 
-        call    a20wait
-        mov     al,0xD1
-        out     0x64,al
- 
-        call    a20wait
-        pop     eax
-        or      al,2
-        out     0x60,al
- 
-        call    a20wait
-        mov     al,0xAE
-        out     0x64,al
- 
-        call    a20wait
-        sti
-        ret
- 
-a20wait:
-        in      al,0x64
-        test    al,2
-        jnz     a20wait
-        ret
- 
- 
-a20wait2:
-        in      al,0x64
-        test    al,1
-        jz      a20wait2
-        ret
+.a20Wait2:
+	in      al,0x64
+	test    al,1
+	jz      .a20Wait2
+	ret
 		
-enable_a20_fast:
+EnableA20Fast:
 	pusha
 	in al, 0x92
 	or al, 2
@@ -113,51 +109,51 @@ enable_a20_fast:
 	popa
 	ret
 	
-enable_a20:
+EnableA20:
 	pusha
 	
 	mov ax, 0x2400
 	int 15h
 	
 	; print we are enabling a20
-	mov si, a20_msg
-	call print
+	mov si, A20Msg
+	call Print
 	
 	; check if the line has already been enabled
-	call check_a20
+	call CheckA20
 	cmp ax, 1
 	je .done
 	
 	; try the bios method
-	call enable_a20_bios
+	call EnableA20Bios
 	
 	; check again
-	call check_a20
+	call CheckA20
 	cmp ax, 1
 	je .done
 	
 	; try the keyboard method
-	call enable_a20_keyboard
+	call EnableA20Keyboard
 	
 	;check again
-	call check_a20
+	call CheckA20
 	cmp ax, 1
 	je .done
 	
 	; try the fast method
-	call enable_a20_fast
+	call EnableA20Fast
 	
 	;check again
-	call check_a20
+	call CheckA20
 	cmp ax, 1
 	je .done
 	
 	; if we got here we failed
 	
-	call fail
+	call Fail
 	
 .done:
 	popa
 	ret
 
-a20_msg db "Enabling a20", 10, 13, 0
+A20Msg db "Enabling a20", 10, 13, 0

@@ -1,4 +1,4 @@
-loadGDT:
+LoadGDT:
 pusha 
 cli
 
@@ -8,7 +8,7 @@ sti
 popa
 ret
 
-startGDT:
+StartGDT:
 
 ;; null descriptor
 dq 0
@@ -46,8 +46,8 @@ db 11001111b	; flags and limit high
 db 0			; base high
 
 
-endGDT:
+EndGDT:
 
 GDTHeader:
-	dw endGDT - startGDT - 1
-	dd startGDT
+	dw EndGDT - StartGDT - 1
+	dd StartGDT

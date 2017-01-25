@@ -1,7 +1,7 @@
 BITS 	16
 ORG		0x500
 
-jmp entry
+jmp Entry
 
 %include "boot/Stage2/Stage2/BIOSVideo.asm"
 %include "boot/Stage2/Stage2/a20.asm"
@@ -10,11 +10,11 @@ jmp entry
 %include "boot/Stage2/Stage2/MochaFS.asm"
 
 
-entry:
+Entry:
 	; standard stuff, save the drive number; reset registers, segments, stack
 	cli
 	
-	mov byte [driveNumber], dl
+	mov byte [DriveNumber], dl
 	
 	xor eax, eax
 	xor ebx, ebx
@@ -33,35 +33,38 @@ entry:
 	sti
 	
 	; clear screen by setting video mode, and print something to know we are here
-	call setVideoMode
+	call SetVideoMode
 	
+	; Print our welcome message
 	mov si, WelcomeMsg
-	call print
+	call Print
 	
 	; enable a20 gate
-	call enable_a20
+	call EnableA20
 	
 	; gdt table
-	call loadGDT
+	call LoadGDT
 	
 	; Enable Vesa
-	call setup_vesa
+	call SetupVesa
 	
-	call ReadDiskInfo
+	; Load Kernel
+	call LoadKernel
 	
-	call GetKernelEntry
+	; Print the Finished Message
+	mov si, FinishedMsg
+	call Print
 	
-	call ReadKernel
+	call TermLine
 	
+	; Jump to Kernel
 	jmp 0x0:0x7e00
 	
 	; print finished message
-	mov si, FinishedMsg
-	call print
 	
 	jmp $
 	
-	call enterVesa
+	call EnterVesa
 	
 	; disable interupts and enable 32 bits mode(pmode)
 	cli
@@ -70,16 +73,11 @@ entry:
 	mov cr0, eax
 	
 	; jump to our 32bit code with the code descriptor
-	jmp 0x08:enter32 
+	jmp 0x08:Enter32 
 
-	
-	
-	
-	
-
-fail:
-	mov si, fail_msg
-	call print
+Fail:
+	mov si, FailMsg
+	call Print
 	
 	cli
 	hlt
@@ -90,7 +88,7 @@ fail:
 ;;;;;;;;;;;;;;;;;;;;;;
 BITS 32
 
-enter32:
+Enter32:
 	mov ax, 10h
 	mov ds, ax
 	mov es, ax
@@ -115,9 +113,7 @@ enter32:
 	cli
 	hlt
 	
-fail_msg db "Failed!", 10, 13, 0
-
-
-driveNumber db 0
+DriveNumber db 0
+FailMsg db "Failed!", 10, 13, 0
 WelcomeMsg db "Mocha0S Stage2 Loader...", 10, 13, 0
-FinishedMsg db "Done Loading MochaOS", 10, 13, 0
+FinishedMsg db "Done Loading Stage2", 10, 13, 0

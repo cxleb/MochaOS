@@ -1,5 +1,5 @@
-;; Prints a string in si
-print:
+; Prints a string in si
+Print:
 mov ah, 0x0e
 .loop:
 lodsb
@@ -10,40 +10,27 @@ jmp .loop
 
 .done:
 ret
-
-;; Prints a Character
-PrintChar:
-	; Save state
-	push 	ax
-	push 	bx
-
-	; Setup INT
-	mov 	ah, 0x0E
-	int 	0x10
-
-	; Restore & Return
-	pop 	bx
-	pop 	ax
-	ret
 	
-;; Terminats A Line(newline)
+; Terminats A Line(newline)
 TermLine:
 	pusha
+	mov ah, 0x0E
 	mov al, 10
-	call PrintChar
+	int 0x10
 	mov al, 13
-	call PrintChar
+	int 0x10
 	popa
 	ret
 
-;; Sets the video mode(Really Just Clears it)
-setVideoMode:
+; Sets the video mode(Really Just Clears it)
+SetVideoMode:
 mov al, 0x03
 mov ah, 0x00
 int 10h	
 ret
 
-;; Prints a numbers
+; Prints a numbers
+; This is from MollenOS modified a little though
 PrintNumber:
 	; Save state
 	pushad
@@ -80,7 +67,8 @@ PrintNumber:
 		pop 	eax
 
 		; Print it
-		call 	PrintChar
+		mov ah, 0x0E
+		int 10h
 
 		; Decrease
 		dec 	ebx
