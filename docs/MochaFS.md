@@ -1,6 +1,6 @@
-+ MochaFS
+# MochaFS
 
-++ Disk Paritioning
+## Disk Paritioning
 | Block	| Description                                   |
 |-------|-----------------------------------------------|
 | 0	    | Boot Sector                                   |
@@ -12,7 +12,7 @@ The File Table is dynamically allocated, the rule is 16 blocks per 1MB of disk s
 
 As of now, the flags isn’t used.
 
-++ Disk Information
+## Disk Information
 
 Disk Information is stored in the boot Sector the information is as follows
 
@@ -26,11 +26,12 @@ Disk Information is stored in the boot Sector the information is as follows
 | Table Size             | Dword      |	4         |
 | Volume Label           | Char       |	16        |
 
-++ Files
+## Files
 
 Files are stored in two places, the file table and the data space. The file table has a series of entries listing all files and directories on the disk. The data section stored files contiguously(linear data), this means files are easily read but cannot grow in size, you must find a new place to store all the data.
 
 File Entries are a data structure 32 bytes in size, they look like:
+
 | Description	           | Data Type	| Data Size |
 |------------------------|------------|-----------|
 | File Name              | Char       | 15        |
