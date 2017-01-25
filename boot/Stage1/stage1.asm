@@ -13,7 +13,7 @@ Version			db 0
 BytesPerBlock	dw 0
 TotalBlocks		dq 0
 
-TableSize		dw 0
+TableSize		dd 0
 
 VolumeLabel		dq 0 ; 16 bytes
 				dq 0
