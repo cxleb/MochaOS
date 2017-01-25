@@ -46,11 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataTypes.cs" />
-    <Compile Include="DiscTools.cs" />
-    <Compile Include="fileList.cs" />
-    <Compile Include="fileWriter.cs" />
-    <Compile Include="formater.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

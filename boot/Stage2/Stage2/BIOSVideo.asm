@@ -1,4 +1,3 @@
-;; Prints a string in si
 print:
 mov ah, 0x0e
 .loop:
@@ -11,7 +10,6 @@ jmp .loop
 .done:
 ret
 
-;; Prints a Character
 PrintChar:
 	; Save state
 	push 	ax
@@ -26,7 +24,6 @@ PrintChar:
 	pop 	ax
 	ret
 	
-;; Terminats A Line(newline)
 TermLine:
 	pusha
 	mov al, 10
@@ -36,14 +33,12 @@ TermLine:
 	popa
 	ret
 
-;; Sets the video mode(Really Just Clears it)
 setVideoMode:
 mov al, 0x03
 mov ah, 0x00
 int 10h	
 ret
 
-;; Prints a numbers
 PrintNumber:
 	; Save state
 	pushad

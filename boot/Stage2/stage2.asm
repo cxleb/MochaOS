@@ -7,7 +7,7 @@ jmp entry
 %include "boot/Stage2/Stage2/a20.asm"
 %include "boot/Stage2/Stage2/gdt.asm"
 %include "boot/Stage2/Stage2/Vesa.asm"
-%include "boot/Stage2/Stage2/MochaFS.asm"
+
 
 
 entry:
@@ -47,70 +47,16 @@ entry:
 	; Enable Vesa
 	call setup_vesa
 	
-	call ReadDiskInfo
-	
-	call GetKernelEntry
-	
-	call ReadKernel
-	
-	jmp 0x0:0x7e00
-	
 	; print finished message
 	mov si, FinishedMsg
 	call print
 	
-	jmp $
-	
-	call enterVesa
-	
-	; disable interupts and enable 32 bits mode(pmode)
 	cli
-	mov eax, cr0
-	or eax, 1
-	mov cr0, eax
-	
-	; jump to our 32bit code with the code descriptor
-	jmp 0x08:enter32 
-
-	
-	
-	
-	
+	hlt
 
 fail:
 	mov si, fail_msg
 	call print
-	
-	cli
-	hlt
-	
-
-;;;;;;;;;;;;;;;;;;;;;;
-;;;;; 32 BITS Area
-;;;;;;;;;;;;;;;;;;;;;;
-BITS 32
-
-enter32:
-	mov ax, 10h
-	mov ds, ax
-	mov es, ax
-	mov ss, ax
-	
-	;;mov ax, word[resx]
-	;;mov cx, 2304
-	;;mul ecx
-	mov ecx, 0
-	mov al, 0xcf
-	
-	;.loop:
-		mov edi, dword[FrameBuffer]
-		add edi, ecx
-		mov byte[edi], al
-		
-		;dec ecx
-		;jnz .loop
-	
-	
 	
 	cli
 	hlt
