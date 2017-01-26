@@ -1,0 +1,14 @@
+Stage2.asm
+
+1, Rewrite a20 (cause i did some copy pasta)
+2, Clean vesa driver
+3, remove uneeded functions from BiosVideo
+4, conform to a convention
+
+MochaFSTool
+
+3, Write Proper Tool (manual develop)
+
+Kernel
+
+1, Write Kernel

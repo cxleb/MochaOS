@@ -1,18 +1,18 @@
+bits 32
 
+extern main
+global Entry
 
-org 0x7e00
-bits 16
+Entry:
+	
+	;mov dword [fb], edi
+	
+	push edi
 
-entry:
-	mov ah, 0x0e
-	mov al, 'k'
-	int 0x10
-	mov al, 'r'
-	int 0x10
-	mov al, 'n'
-	int 0x10
-	mov al, 'l'
-	int 0x10
-
+	call main
+	
 	cli
 	hlt
+		
+	
+;fb: dd 0

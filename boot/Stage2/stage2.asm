@@ -8,7 +8,7 @@ jmp Entry
 %include "boot/Stage2/Stage2/gdt.asm"
 %include "boot/Stage2/Stage2/Vesa.asm"
 %include "boot/Stage2/Stage2/MochaFS.asm"
-
+%include "boot/Stage2/Stage2/32bitsubs.asm"
 
 Entry:
 	; standard stuff, save the drive number; reset registers, segments, stack
@@ -57,13 +57,6 @@ Entry:
 	
 	call TermLine
 	
-	; Jump to Kernel
-	jmp 0x0:0x7e00
-	
-	; print finished message
-	
-	jmp $
-	
 	call EnterVesa
 	
 	; disable interupts and enable 32 bits mode(pmode)
@@ -89,27 +82,39 @@ Fail:
 BITS 32
 
 Enter32:
+	; put the segment in the segment registers
 	mov ax, 10h
 	mov ds, ax
 	mov es, ax
 	mov ss, ax
+	;setup the stack
+	mov ax, 0x7c00
+	mov sp, ax
 	
-	;;mov ax, word[resx]
-	;;mov cx, 2304
-	;;mul ecx
-	mov ecx, 0
+	mov edi, dword [FrameBuffer]
+	;mov dword [BootInfo.FrameBuffer], edi
+	
+	;mov ebx, BootInfo
+	
+	jmp 0x08:0x7e00
+	
+	; Some 32 bit Vesa Testing code
+	
+	mov ax, word[resx]
+	mov cx, word[resyy] 
+	mul ecx
+	mov ecx, eax
+	mov ecx, 0x240000
 	mov al, 0xcf
 	
-	;.loop:
+	.loop:
 		mov edi, dword[FrameBuffer]
 		add edi, ecx
-		mov byte[edi], al
+		;mov byte[edi], al
 		
-		;dec ecx
-		;jnz .loop
-	
-	
-	
+		dec ecx
+		jnz .loop
+		
 	cli
 	hlt
 	

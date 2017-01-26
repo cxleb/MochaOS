@@ -3,7 +3,7 @@ ORG		0x7c00
 
 ; 2 byte offset
 jmp entry
-hlt
+nop
 
 ; 36 byte MBR
 Magic 			dd 0

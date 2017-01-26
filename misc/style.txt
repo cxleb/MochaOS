@@ -1,0 +1,19 @@
+This is the reference to my code style used in the MochaOS
+
+Asssembly:
+	
+	instructions
+		mov op1, op2
+
+	Hex numbers
+		0x12345678
+
+	Pointer names:
+		PointerName
+		.pointerName
+
+	Comma Spacing
+		0, 0, 0, 0
+
+	Comments
+		; comment
