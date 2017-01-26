@@ -1,14 +1,14 @@
 Stage2.asm
 
-1, Rewrite a20 (cause i did some copy pasta)
-2, Clean vesa driver
-3, remove uneeded functions from BiosVideo
-4, conform to a convention
+1, Write Boot Info Structure(32bitsubs.asm) for export to kernel
 
 MochaFSTool
 
-3, Write Proper Tool (manual develop)
+1, Write Proper Tool (manual develop)
 
 Kernel
 
-1, Write Kernel
+1, Get the sp in the location
+2, Write Basic Debug Tool(stack like console?)
+3, Write Memory manager(heap and stdlib mem functions)
+4, Start to think about general kernel design and features

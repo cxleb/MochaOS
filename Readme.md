@@ -1,9 +1,9 @@
 # MochaOS
 
-MochaOS aims to be a lightweight hackable microkernel based operating system.
+MochaOS aims to be a lightweight hackable operating system.
 
 
-Right now the OS boots to a stage2 bootloader inits a20, gdt and halts
+Right now the OS boots to a stage2 bootloader loads kernel at wrong location and jumps to it.
 
 ## Features
 
@@ -12,7 +12,4 @@ Right now the OS boots to a stage2 bootloader inits a20, gdt and halts
 
 ## Plans
 
-- Add a kernel
-- Finish stage2
-- Add a userspace
-- Add custom executable format
+see Misc/TODO.txt
