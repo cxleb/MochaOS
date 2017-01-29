@@ -36,30 +36,21 @@ Entry:
 	; clear screen by setting video mode, and print something to know we are here
 	call SetVideoMode
 
-	; Print our welcome message
 	mov si, WelcomeMsg
 	call Print
 
-	; Memory Detection
+	; Setup, Self Explaned
+
 	call GetMemory
-
-	; enable a20 gate
 	call EnableA20
-
-	; gdt table
 	call LoadGDT
-
-	; Enable Vesa
 	call SetupVesa
-
-	; Load Kernel
 	call LoadKernel
+	call havefun
 
 	; Print the Finished Message
 	mov si, FinishedMsg
 	call Print
-
-	call TermLine
 
 	;call EnterVesa
 

@@ -14,10 +14,10 @@ DetectLower:
 
 ; Detects the upper memory return in 64 kb blocks in ax
 DetectUpper:
-  xor ax, ax
-  xor bx, bx
-  xor cx, cx
-  xor dx, dx
+  xor eax, eax
+  xor ebx, ebx
+  xor ecx, ecx
+  xor edx, edx
 
   clc
 
@@ -48,24 +48,66 @@ DetectUpper:
 
   add ax, cx
 
+  mov ecx, 64
+  mul ecx
+
   ret
 
 ; Get the memory map
+; es:di points to buffer
+; ecx counter for entries
 GetMemoryMap:
+xor ebx, ebx
+mov ecx, 1
+.mLoop:
+  push ecx
+  mov eax, 0xE820
+  mov ecx, 24
+  mov edx, 0x534D4150
+
+  int 0x15
+
+  ; do some tests to confirm Entry
+  jc Fail
+
+  cmp eax, 0x534D4150
+  jne Fail
+
+  ; check if we got to the end
+  test ebx, ebx
+  je .done
+
+  ; so we have a good Entry so we increment es:di and go again
+  pop ecx
+  inc ecx
+  add edi, 0x20
+
+  jmp .mLoop
+
+.done:
+  pop ecx
   ret
 
 GetMemory:
-  call DetectLower
-  call PrintNumber
+  mov si, MemoryMsg
+  call Print
 
-  call TermLine
+  call DetectLower
+  mov word[MemoryLower], ax
 
   call DetectUpper
-  call PrintNumber
+  mov dword[MemoryUpper], eax
 
-  call TermLine
+  xor ax, ax
+  mov es, ax
+  mov di, MemoryMap
+  call GetMemoryMap
+  mov word[MemoryMapEntryCounter], cx
 
   ret
 
-MemoryLower dw 0
-MemoryUpper dw 0
+MemoryLower dd 0
+MemoryUpper dd 0
+MemoryMapEntryCounter dw 0
+MemoryMap times 1024 db 0
+MemoryMsg db "Reading Memory Map...", 10, 13, 0
