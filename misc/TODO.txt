@@ -1,7 +1,6 @@
 Stage2.asm
 
-1, **URGENT** need to write a memory detection tool to get lower, upper, and the memory map
-2, Write Boot Info Structure(32bitsubs.asm) for export to kernel
+1, locate kernel at 1mb
 
 MochaFSTool
 
@@ -9,6 +8,7 @@ MochaFSTool
 
 Kernel
 
+?, BootInfo Tests
 1, Get the sp in the location and clear registers
 2, Write Basic Debug Tool(stack like console?)
 3, Write Memory manager(heap and stdlib mem functions)

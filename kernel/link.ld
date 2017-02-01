@@ -1,7 +1,7 @@
 OUTPUT_FORMAT(binary)
 
 ENTRY(Entry)
-STARTUP(bin/kernel.o)
+STARTUP(kernel/bin/kernel.o)
 
 SECTIONS
 {
@@ -12,15 +12,15 @@ SECTIONS
 	}
 
 	.rodata ALIGN (4K) : {
-		*(.rodata)	
+		*(.rodata)
 	}
 
-	.data ALIGN (4K) : 
+	.data ALIGN (4K) :
 	{
 		*(.data)
 	}
 
-	.bss : 
+	.bss :
 	{
 		*(.bss)
 	}

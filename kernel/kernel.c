@@ -1,4 +1,5 @@
+#include "BootInfo.h"
 
-void main(){
-	
+void main(BootInfo* bootInfo){
+
 }

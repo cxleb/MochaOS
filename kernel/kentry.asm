@@ -4,15 +4,15 @@ extern main
 global Entry
 
 Entry:
-	
+
 	;mov dword [fb], edi
-	
-	push edi
+
+	push ebx
 
 	call main
-	
+
 	cli
 	hlt
-		
-	
+
+
 ;fb: dd 0

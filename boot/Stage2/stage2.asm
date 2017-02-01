@@ -8,8 +8,8 @@ jmp Entry
 %include "boot/Stage2/Stage2/a20.asm"
 %include "boot/Stage2/Stage2/gdt.asm"
 %include "boot/Stage2/Stage2/Vesa.asm"
-%include "boot/Stage2/Stage2/MochaFS.asm"
 %include "boot/Stage2/Stage2/32bitsubs.asm"
+%include "boot/Stage2/Stage2/MochaFS.asm"
 
 Entry:
 	; standard stuff, save the drive number; reset registers, segments, stack
@@ -48,13 +48,7 @@ Entry:
 	call LoadKernel
 	call havefun
 
-	; Print the Finished Message
-	mov si, FinishedMsg
-	call Print
-
-	;call EnterVesa
-
-	jmp $
+	call EnterVesa
 
 	; disable interupts and enable 32 bits mode(pmode)
 	cli
@@ -84,36 +78,13 @@ Enter32:
 	mov ds, ax
 	mov es, ax
 	mov ss, ax
-	;setup the stack
+	; setup the stack
 	mov ax, 0x7c00
 	mov sp, ax
 
-	mov edi, dword [FrameBuffer]
-	;mov dword [BootInfo.FrameBuffer], edi
-
-	;mov ebx, BootInfo
+	mov ebx, BootInfo
 
 	jmp 0x08:0x7e00
-
-	; Some 32 bit Vesa Testing code
-
-	mov ax, word[resx]
-	mov cx, word[resyy]
-	mul ecx
-	mov ecx, eax
-	mov ecx, 0x240000
-	mov al, 0xcf
-
-	.loop:
-		mov edi, dword[FrameBuffer]
-		add edi, ecx
-		;mov byte[edi], al
-
-		dec ecx
-		jnz .loop
-
-	cli
-	hlt
 
 DriveNumber db 0
 FailMsg db "Failed!", 10, 13, 0
