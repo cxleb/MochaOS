@@ -1,4 +1,16 @@
-havefun:
+RelocateKernel:
+
+  mov ecx, dword [KernelSize]
+  shl ecx, 7 ; * 128
+
+  mov esi, 0x7e00
+  mov edi, 0x100000
+
+  rep movsd
+
+  ret
+
+SetupBootInfo:
 	push eax
 
 	mov eax, dword [MemoryLower]
@@ -10,12 +22,10 @@ havefun:
 	mov eax, dword[MemoryMapEntryCounter]
 	mov dword [BootInfo.MemMapCount], eax
 
-	mov al, byte [DriveNumber]
-	mov byte [BootInfo.DriveNumber], al
-
-	mov eax, dword[KernelBlock]
+	mov eax, 0x100000
 	mov dword [BootInfo.KernelAddress], eax
 	mov eax, dword[KernelSize]
+	shl eax, 9
 	mov dword [BootInfo.KernelSize], eax
 
 	mov eax, dword[resx]
@@ -23,7 +33,7 @@ havefun:
 	mov eax, dword[resyy]
 	mov dword [BootInfo.VesaY], eax
 	mov eax, dword[FrameBuffer]
-	mov dword [BootInfo.FrameBuffer], eax
+  mov dword [BootInfo.FrameBuffer], eax
 
 	pop eax
 	ret
@@ -34,11 +44,12 @@ BootInfo:
 	.MemMapPtr:			dd 0 ; 8
 	.MemMapCount:		dd 0 ; 12
 
-	.DriveNumber:		db 0 ; 13
-
 	.KernelAddress: dd 0 ; 17
 	.KernelSize:		dd 0 ; 21
 
 	.VesaX:					dd 0 ; 25
 	.VesaY:					dd 0 ; 29
 	.FrameBuffer: 	dd 0 ; 33
+
+TestMode:
+  .Hello: db "Hello", 0

@@ -8,7 +8,6 @@ jmp Entry
 %include "boot/Stage2/Stage2/a20.asm"
 %include "boot/Stage2/Stage2/gdt.asm"
 %include "boot/Stage2/Stage2/Vesa.asm"
-%include "boot/Stage2/Stage2/32bitsubs.asm"
 %include "boot/Stage2/Stage2/MochaFS.asm"
 
 Entry:
@@ -46,7 +45,9 @@ Entry:
 	call LoadGDT
 	call SetupVesa
 	call LoadKernel
-	call havefun
+
+	mov si, FinishedMsg
+	call Print
 
 	call EnterVesa
 
@@ -72,6 +73,8 @@ Fail:
 ;;;;;;;;;;;;;;;;;;;;;;
 BITS 32
 
+%include "boot/Stage2/Stage2/32bitsubs.asm"
+
 Enter32:
 	; put the segment in the segment registers
 	mov ax, 10h
@@ -82,9 +85,13 @@ Enter32:
 	mov ax, 0x7c00
 	mov sp, ax
 
+	call RelocateKernel
+
+	call SetupBootInfo
+
 	mov ebx, BootInfo
 
-	jmp 0x08:0x7e00
+	jmp 0x08:0x100000
 
 DriveNumber db 0
 FailMsg db "Failed!", 10, 13, 0

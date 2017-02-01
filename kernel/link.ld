@@ -1,7 +1,7 @@
 OUTPUT_FORMAT(binary)
 
 ENTRY(Entry)
-STARTUP(kernel/bin/kernel.o)
+STARTUP(src/kentry.o)
 
 SECTIONS
 {
