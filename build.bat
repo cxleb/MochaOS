@@ -7,10 +7,10 @@ nasm -f bin -o install/stage1.bin boot/Stage1/stage1.asm
 nasm -f bin -o install/stage2.bin boot/Stage2/stage2.asm
 
 :: Build Kernel
-i586-elf-gcc -m32 -c -w -Wall -ffreestanding -o kernel/bin/kc.o kernel/kernel.c
-nasm -f elf32 -o kernel/bin/kernel.o kernel/kentry.asm
-
-i586-elf-ld -T kernel/link.ld -o install/sys/krnl32.sys kernel/bin/kc.o
+cd kernel
+make
+cd ..
+xcopy /y kernel\krnl32.sys install\sys\krnl32.sys
 
 :: Build the File
 tool\MochaFSTool\MochaFSTool\bin\debug\MochaFSTool.exe install img
