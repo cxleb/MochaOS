@@ -1,15 +1,11 @@
-Stage2.asm
-
-1, locate kernel at 1mb
-
 MochaFSTool
 
 1, Write Proper Tool (manual develop)
 
 Kernel
 
-?, BootInfo Tests
-1, Get the sp in the location and clear registers
+1, write io device structure(links to number 2)
 2, Write Basic Debug Tool(stack like console?)
-3, Write Memory manager(heap and stdlib mem functions)
-4, Start to think about general kernel design and features
+3, BootInfo Tests
+4, Write Memory manager(heap and stdlib mem functions)
+5, Start to think about general kernel design and features
