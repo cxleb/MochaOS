@@ -77,7 +77,7 @@ BITS 32
 
 Enter32:
 	; put the segment in the segment registers
-	mov ax, 10h
+	mov ax, 0x10
 	mov ds, ax
 	mov es, ax
 	mov ss, ax
@@ -89,6 +89,23 @@ Enter32:
 
 	call SetupBootInfo
 
+	; clean registers for jump to kernel
+	mov ax, 0x10
+	mov ds, ax
+	mov es, ax
+	mov ss, ax
+	xor ax, ax
+	mov fs, ax
+	mov gs, ax
+
+	xor eax, eax
+	xor ebx, ebx
+	xor ecx, ecx
+	xor edx, edx
+	xor edi, edi
+	xor esi, esi
+
+	; put some info into registers for jump, ebx = BootInfo
 	mov ebx, BootInfo
 
 	jmp 0x08:0x100000

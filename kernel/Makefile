@@ -2,13 +2,15 @@ CC = i586-elf-gcc
 LD = i586-elf-ld
 AS = nasm
 
-CF = -m32 -c -w -Wall -ffreestanding -Iinclude/ -Iklib/include/
+CF = -m32 -c -w -Wall -ffreestanding -std=c99 -Iinclude/ -Iklib/include/
 AF = -f elf32
 LF = -T link.ld
 
 CSRC = $(shell findc src -name "*.c")
 ASRC = $(shell findc src -name "*.asm")
-OBJS = $(CSRC:.c=.o) $(ASRC:.asm=.o)
+CKLIB = $(shell findc klib -name "*.c")
+
+OBJS = $(CSRC:.c=.o) $(ASRC:.asm=.o) $(CKLIB:.c=.o)
 
 RESULT = krnl32.sys
 

@@ -13,7 +13,7 @@ cd ..
 xcopy /y kernel\krnl32.sys install\sys\krnl32.sys
 
 :: Build the File
-tool\MochaFSTool\MochaFSTool\bin\debug\MochaFSTool.exe install img
+tool\MochaFSTool\MochaFSTool\bin\debug\MochaFSTool.exe install vmdk
 
 :: run the system
 qemu-system-i386 disk.img -m 32
