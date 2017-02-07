@@ -15,6 +15,13 @@ void k_puts(uint8_t* str){
   }
 }
 
+void checkNewLine(){
+  if(row >= tty0_height){
+    row--;
+    vesa_scroll_up(12);
+  }
+}
+
 void t_printc(uint8_t c){
 	switch(c)
 	{
@@ -47,5 +54,5 @@ void t_printc(uint8_t c){
 		col = 0;
 		row++;
 	}
-	//checkNewLine();
+	checkNewLine();
 }

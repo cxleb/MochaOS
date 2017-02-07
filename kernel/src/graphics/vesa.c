@@ -1,6 +1,6 @@
-#include "types.h"
 #include "vesa.h"
 #include "graphics/console_font.h"
+#include "types.h"
 
 uint8_t* FrameBuffer = 0;
 uint32_t Width = 1024;
@@ -73,6 +73,11 @@ void vesa_draw_character(uint32_t x, uint32_t y, uint8_t character, uint8_t colo
            }
        }
    }
+}
+
+void vesa_scroll_up(uint32_t scroll){
+  memcpy((void*) FrameBuffer, (void*) (FrameBuffer + (Width*scroll*bpp)), (Width*(Height-scroll)) * bpp);
+  memset((void*) ( FrameBuffer + ((Width*(Height-scroll)) * bpp)), 0, Width*scroll*bpp);
 }
 
 void vesa_put_pixel(uint32_t x, uint32_t y, uint32_t colour){
