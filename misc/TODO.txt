@@ -1,11 +1,14 @@
+Boot
+
+1, Seek UEFI support(hard, and probs wont happen due to current state of project)
+
 MochaFSTool
 
 1, Write Proper Tool (manual develop)
 
 Kernel
 
-1, write io device structure(links to number 2)
-2, Write Basic Debug Tool(stack like console?)
-3, BootInfo Tests
-4, Write Memory manager(heap and stdlib mem functions)
-5, Start to think about general kernel design and features
+1, write io device structure
+2, BootInfo Tests
+3, Write Memory manager(heap and stdlib mem functions)
+4, Start to think about general kernel design and features

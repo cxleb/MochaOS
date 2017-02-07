@@ -22,7 +22,7 @@ all:
 build: $(RESULT)
 
 $(RESULT): $(OBJS)
-	@$(LD) $(LF) -o $@ $(shell findc src -name "*.o" ! -path "*/kentry.o")
+	@$(LD) $(LF) -o $@ $(shell findc src -name "*.o" ! -path "*/kentry.o") $(shell findc klib -name "*.o")
 
 %.o : %.asm
 	@$(AS) $(AF) -o $@ $<
@@ -32,3 +32,4 @@ $(RESULT): $(OBJS)
 
 clean:
 	@rm $(shell findc src -name "*.o")
+	@rm $(shell findc klib -name "*.o")
