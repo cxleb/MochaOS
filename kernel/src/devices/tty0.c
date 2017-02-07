@@ -3,19 +3,19 @@
 #include "string.h"
 
 
-u32 col = 0, row = 0;
-u32 tty0_width = 128, tty0_height = 64;
-u8 colour = 0x0F;
+uint32_t col = 0, row = 0;
+uint32_t tty0_width = 128, tty0_height = 64;
+uint8_t colour = 0x0F;
 
-void k_puts(u8* str){
-  u16 i = 0;
-  u16 length = stringlen(str);
+void k_puts(uint8_t* str){
+  uint16_t i = 0;
+  uint16_t length = stringlen(str);
   for(i;i<length;i++){
     t_printc(str[i]);
   }
 }
 
-void t_printc(u8 c){
+void t_printc(uint8_t c){
 	switch(c)
 	{
 	case (0x09):

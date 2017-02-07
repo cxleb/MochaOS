@@ -1,13 +1,13 @@
-#ifndef vesa
-#define vesa
+#ifndef vesa_h
+#define vesa_h
 
 #include "types.h"
 
-void vesa_init(u8* frameBuffer);
-void vesa_put_pixel(u32 x, u32 y, u32 colour);
-void vesa_draw_character(u32 x, u32 y, u8 character, u8 colour);
-void vesa_draw_rect(u32 xpos, u32 ypos, u32 width, u32 height, u32 color);
-void vesa_clear_colour(u32 color);
+void vesa_init(uint8_t* frameBuffer);
+void vesa_put_pixel(uint32_t x, uint32_t y, uint32_t colour);
+void vesa_draw_character(uint32_t x, uint32_t y, uint8_t character, uint8_t colour);
+void vesa_draw_rect(uint32_t xpos, uint32_t ypos, uint32_t width, uint32_t height, uint32_t color);
+void vesa_clear_colour(uint32_t color);
 void vesa_clear_screen();
 
 

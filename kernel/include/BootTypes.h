@@ -1,21 +1,21 @@
-#ifndef BootTypes
-#define BootTypes
+#ifndef BootTypes_h
+#define BootTypes_h
 
 #include "types.h"
 
 struct BootInfo{
 
-  u32 MemoryLow;
-  u32 MemoryHigh;
-  u32 MemMapPtr;
-  u32 MemMapCount;
+  uint32_t MemoryLow;
+  uint32_t MemoryHigh;
+  uint32_t MemMapPtr;
+  uint32_t MemMapCount;
 
-  u32 KernelAddress;
-  u32 KernelSize;
+  uint32_t KernelAddress;
+  uint32_t KernelSize;
 
-  u32 VesaX;
-  u32 VesaY;
-  u32 FrameBuffer;
+  uint32_t VesaX;
+  uint32_t VesaY;
+  uint32_t FrameBuffer;
 
 };
 

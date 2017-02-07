@@ -1,9 +1,9 @@
-#ifndef tty0
-#define tty0
+#ifndef tty0_h
+#define tty0_h
 
 #include "types.h"
 
-void k_puts(u8* str);
-void t_printc(u8 c);
+void k_puts(uint8_t* str);
+void t_printc(uint8_t c);
 
 #endif

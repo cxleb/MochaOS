@@ -5,10 +5,10 @@
 
 void main(BootInfo_t* bootInfo){
 
-  vesa_init( (u8*)(bootInfo->FrameBuffer) );
+  vesa_init( (uint8_t*)(bootInfo->FrameBuffer) );
 
   k_puts("Hello, World!\n");
-  k_puts("Yay!");
+  k_puts("Yeah we converted to c standard types!");
 
 
 }

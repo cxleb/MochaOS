@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-u16 stringlen(u8* string);
+uint16_t stringlen(uint8_t* string);
 
 #endif

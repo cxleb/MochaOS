@@ -2,13 +2,15 @@
 
 MochaOS aims to be a lightweight hackable operating system.
 
+In the process of writing a kernel.
 
-Right now the OS boots to a stage2 bootloader loads kernel at wrong location and jumps to it.
+Might I add, it needs UEFI support to work anywhere but QEMU, or VirtualBox
 
 ## Features
 
 - Custom Bootloader
 - Own FS
+- Something called kernel thats not a kernel
 
 ## Plans
 

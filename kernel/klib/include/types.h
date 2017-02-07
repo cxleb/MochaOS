@@ -1,16 +1,16 @@
 #ifndef Types
 #define Types
 
-typedef unsigned char u8;
-typedef signed char i8;
+typedef unsigned char uint8_t;
+typedef signed char int8_t;
 
-typedef unsigned short u16;
-typedef signed short i16;
+typedef unsigned short uint16_t;
+typedef signed short int16_t;
 
-typedef unsigned long u32;
-typedef signed long i32;
+typedef unsigned long uint32_t;
+typedef signed long int32_t;
 
-typedef unsigned long u64;
-typedef signed long i64;
+typedef unsigned long long uint64_t;
+typedef signed long long int64_t;
 
 #endif
