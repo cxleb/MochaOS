@@ -11,7 +11,6 @@ namespace MochaFSTool
     {
         public static long fileAddressOffset = 0;
         public static int fileEntryOffset = 0;
-        public static int entryCounter = 0;
 
         public static void writeFileEntry(MochaFSDisk disk)
         {
@@ -73,9 +72,6 @@ namespace MochaFSTool
 
                 // add 32 to the offset to get to the next entry
                 fileEntryOffset += 32;
-
-                // add to the entry counter
-                entryCounter++;
 
             }
 

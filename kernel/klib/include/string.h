@@ -3,8 +3,9 @@
 
 #include "types.h"
 
-uint16_t stringlen(uint8_t* string);
-void memcpy(void* dest, void* src, size_t size);
-void memset(void* source, uint8_t a, size_t size);
+uint16_t strlen(uint8_t* string);
+void reverse(uint8_t *str);
+void itoa(uint8_t *s, uint32_t i, uint16_t base);
+void concat(uint8_t* dest, uint8_t* str1, uint8_t* str2);
 
 #endif

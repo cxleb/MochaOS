@@ -5,5 +5,6 @@
 
 void k_puts(uint8_t* str);
 void t_printc(uint8_t c);
+void k_panic(uint8_t* str);
 
 #endif

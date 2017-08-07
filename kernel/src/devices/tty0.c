@@ -9,10 +9,16 @@ uint8_t colour = 0x0F;
 
 void k_puts(uint8_t* str){
   uint16_t i = 0;
-  uint16_t length = stringlen(str);
+  uint16_t length = strlen(str);
   for(i;i<length;i++){
     t_printc(str[i]);
   }
+}
+
+void k_panic(uint8_t* str){
+  colour = 0x0C;
+  k_puts("\n\n*** PANIC ***\n");
+  k_puts(str);
 }
 
 void checkNewLine(){

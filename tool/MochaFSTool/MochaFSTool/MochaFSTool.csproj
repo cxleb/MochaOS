@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="config.cs" />
     <Compile Include="DataTypes.cs" />
     <Compile Include="DiscTools.cs" />
     <Compile Include="fileList.cs" />

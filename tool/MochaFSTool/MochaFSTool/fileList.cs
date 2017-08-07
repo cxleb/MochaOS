@@ -10,12 +10,14 @@ namespace MochaFSTool
     class fileList
     {
         public static List<FileEntry> list;
+        public static int dirCount = 0;
+        public static int fileCount = 0;
 
         public static void writeList()
         {
             list = new List<FileEntry>();
-            string[] files = Directory.GetFiles(Program.installDirectory, "*.*", SearchOption.AllDirectories);
-            string[] folders = Directory.GetDirectories(Program.installDirectory, "*", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(config.dir+config.loadPath, "*.*", SearchOption.AllDirectories);
+            string[] folders = Directory.GetDirectories(config.dir+config.loadPath, "*", SearchOption.AllDirectories);
 
             uint directoryCounter = 1;
             DirectoryInfo dinfo;
@@ -57,14 +59,14 @@ namespace MochaFSTool
                 entry.name = to15bytearray(dinfo.Name);
 
                 list.Add(entry);
-
+                dirCount++;
             }
 
             FileInfo info;
             foreach (string file in files)
             {
                 info = new FileInfo(file);
-                if (info.Name != "stage1.bin" && info.Name != "stage2.bin")
+                if (info.Name != config.bootsector && info.Name != config.reservedFile)
                 {
                     FileEntry entry = new FileEntry();
 
@@ -110,7 +112,7 @@ namespace MochaFSTool
                     }
 
                     list.Add(entry);
-
+                    fileCount++;
                 }
                 
 

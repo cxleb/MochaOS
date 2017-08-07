@@ -19,7 +19,7 @@ namespace MochaFSTool
             formater.FormatDisk(disk);
 
             // Stage 1
-            byte[] stage1Bytes = File.ReadAllBytes(installDirectory + @"\stage1.bin");
+            byte[] stage1Bytes = File.ReadAllBytes(config.dir + config.bootsector);
 
             Buffer.BlockCopy(formater.MBR, 0, stage1Bytes, 3, 36);
 
@@ -28,21 +28,19 @@ namespace MochaFSTool
             Console.WriteLine("Wrote MBR");
 
             //Stage 2
-            byte[] stage2Bytes = File.ReadAllBytes(installDirectory + @"\stage2.bin");
+            byte[] stage2Bytes = File.ReadAllBytes(config.dir + config.reservedFile);
 
             DiscTools.writeDisk(disk, stage2Bytes, 1, mediaType);
 
-            Console.WriteLine("Wrote Stage2");
+            Console.WriteLine("Wrote Reserved File");
 
             // Create the file list
             fileList.writeList();
 
-            Console.WriteLine("Found " + fileList.list.Count + " Entries");
+            Console.WriteLine("Found " + fileList.fileCount + " File Entries and " + fileList.dirCount + " Directory Entries");
 
             // Make the File Table
             fileWriter.writeFileEntry(disk);
-
-            Console.WriteLine("Wrote " + fileWriter.entryCounter + " Entries to FT");
 
             // Write Files to Disk
             byte[] _file;
@@ -62,20 +60,21 @@ namespace MochaFSTool
 
             }
 
-            Console.WriteLine("Wrote " + fileCounter + " Files");
+            Console.WriteLine("Wrote " + fileCounter + " File(s)");
         }
 
         static void Main(string[] args)
         {
             Console.WriteLine("MochaFS Disk Writing Tool\n");
-            if (args.Length >= 2)
+            if (args.Length >= 1)
             {
-                //installDirectory = args[0];
-                if(args[1] == "img")
+                config.loadConfig( args[0]);
+                Console.WriteLine("Output Media: " + config.media);
+                if(config.media == "img")
                 {
                     mediaType = 0;
                 }
-                else if ( args[1] == "vmdk" )
+                else if ( config.media == "vmdk" )
                 {
                     mediaType = 1;
                 }
@@ -83,8 +82,6 @@ namespace MochaFSTool
                 {
                     mediaType = 0;
                 }
-                Console.WriteLine("Format: " + args[1]);
-
             }
             else
             {
@@ -93,14 +90,14 @@ namespace MochaFSTool
             }
 
             
-            ulong SizeOfHddMB = 16;
+            ulong SizeOfHddMB = (ulong)config.sizeHdd;
             ulong SizeOfHdd = SizeOfHddMB * 1024 * 1024;
             diskSize = SizeOfHdd;
 
             if (mediaType == 0)
             {
 
-                using (Stream file = File.Create(@"C:\osdev\MochaOS\disk.img"))
+                using (Stream file = File.Create(config.dir + config.result))
                 {
                     // Create Disc Handler
                     DiscUtils.Raw.Disk discHandle = DiscUtils.Raw.Disk.Initialize(file, DiscUtils.Ownership.None, (long)SizeOfHdd);
@@ -127,7 +124,7 @@ namespace MochaFSTool
 
             }else if( mediaType == 1)
             {
-                DiscUtils.Vmdk.Disk discHandle = DiscUtils.Vmdk.Disk.Initialize(@"C:\osdev\MochaOS\disk.vmdk", (long) SizeOfHdd, DiscUtils.Vmdk.DiskCreateType.MonolithicSparse);
+                DiscUtils.Vmdk.Disk discHandle = DiscUtils.Vmdk.Disk.Initialize(config.dir+config.result, (long) SizeOfHdd, DiscUtils.Vmdk.DiskCreateType.MonolithicSparse);
 
                 // Setup Virtual Disc
                 MochaFSDisk disk = new MochaFSDisk();

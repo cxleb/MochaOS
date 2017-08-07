@@ -1,0 +1,6 @@
+sizehdd=16
+reservedfile=install\stage2.bin
+loadpath=install\install
+bootsector=install\stage1.bin
+media=img
+result=disk.img
